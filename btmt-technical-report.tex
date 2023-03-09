@@ -66,7 +66,7 @@ This document is a work in progress. To check the latest version you can visit i
 
 BITMarkets is a cryptocurrency exchange which has the mission to make crypto simple.
 This document describes the technical details of the native token of the exchange, namely the BTMT.
-If you would like to read a marketing-oriented document with less technical details, you can read the corresponding \href{https://bitmarkets.com}{litepaper}.
+If you would like to read a marketing-oriented document with less technical details, you can read the corresponding \href{https://bitmarkets.com/en/documents/BTMT_Litepaper}{litepaper}.
 
 Trading pairs that involve BTMT will have lower platform exchange fees than those that don't.
 Moreover, users that hold BTMT in their portfolio will be eligible for airdrops, NFT lotteries and other perks that will be announced in the future.
@@ -86,7 +86,7 @@ the so-called ``approval'', which is an operation that allows one address to spe
 \section{Distribution}
 The total minted supply of BTMT on deployment is 300 million tokens.
 100 million of those will be sold in public and private sales, specifically 40 million in a private sale and 60 million in a public sale.
-The second 100 million are allocated on deployment to many different wallets that are adjacent to the company. Specifically, 30\% will go to wallets belonging to the BITMarkets team members, 25\% to marketing-related wallets, 40\% to wallets that will be distributed to the salespeople and 5\% to wallets that will eventually be airdropped. All these wallets have a cliff period of 9 months and will receive linear vesting for 10 months. The rest of the tokens are in the company liquidity wallet, which will provide rewards to early backers, bonuses for team members, liquidity for future exchange listings and it will receive monthly burning of 0.1\% of the token total supply to gradually reduce its size.
+The second 100 million will be allocated to many different wallets that are adjacent to the company. Specifically, 30\% will go to wallets belonging to the BITMarkets team members, 25\% to marketing-related wallets, 40\% to wallets that will be distributed to the salespeople and 5\% to wallets that will eventually be airdropped. All these wallets have a cliff period of 9 months and will receive linear vesting for 10 months. The rest of the tokens are in the company liquidity wallet, which will provide rewards to early backers, bonuses for team members, liquidity for future exchange listings and it will receive monthly burning of 0.1\% of the token total supply to gradually reduce its size.
 
 \begin{figure}[h!]
 \centering
@@ -137,37 +137,47 @@ The second 100 million are allocated on deployment to many different wallets tha
 
 The BITMarkets-uploaded smart contracts are the following:
 \begin{enumerate}
-  \item \label{contracts:token} The ERC20 contract with \href{https://mumbai.polygonscan.com/address/0x5D4f3495c35B5A6687095710Cb02154E975dd147}{address} and \href{https://github.com/UAB-BITmarkets/token/blob/master/contracts/BITMarketsToken.sol}{source code} available. This contract inherits from various OpenZeppelin smart contracts that provide functionality such as snapshots, burning and pausing. It also inherits from two BITMarkets-specific contracts that impose restrictions on strategic wallets' transfers and transfer fees of maximum 1\% of the total.
+  \item \label{contracts:token} The ERC20 contract with \href{https://polygonscan.com/address/0xf1dcfbA25b8be56c4d706B0C0cf43Ae28E062688}{address}.
+%   and \href{https://github.com/UAB-BITmarkets/token/blob/master/contracts/BITMarketsToken.sol}{source code} available.
+  This contract inherits from various OpenZeppelin smart contracts that provide functionality such as snapshots, burning and pausing. It also inherits from two BITMarkets-specific contracts that impose restrictions on strategic wallets' transfers and transfer fees of maximum 0.1\% of the total.
 
-  \item \label{contracts:allocations} The team allocations contract with \href{https://mumbai.polygonscan.com/address/0x156233dcA50144cb5E3EA3fA14E20DD6fC70fB0C}{address} and \href{https://github.com/UAB-BITmarkets/token/blob/master/contracts/BITMarketsTokenAllocations.sol}{source code} available. This contract generates and remembers the vesting wallets of the beneficiaries of the allocations in Figure \ref{fig:allocations}. The beneficiaries will access public functions in this contract to give them the vested amount of tokens that they can withdraw.
+  \item \label{contracts:allocations} The team allocations contract with \href{https://polygonscan.com/address/0x310AD8a6a34a23330aEF455d9B730c32b12935C0}{address} .
+%   and \href{https://github.com/UAB-BITmarkets/token/blob/master/contracts/BITMarketsTokenAllocations.sol}{source code} available.
+  This contract generates and remembers the vesting wallets of the beneficiaries of the allocations in Figure \ref{fig:allocations}. The beneficiaries will access public functions in this contract to give them the vested amount of tokens that they can withdraw.
 
-  \item \label{contracts:privatesale} The private sale contract with \href{https://mumbai.polygonscan.com/address/0x82D1205305c01B5FC67a261EE63542c04D4d521d}{address} and \href{https://github.com/UAB-BITmarkets/token/blob/master/contracts/BITMarketsTokenPrivateSale.sol}{source code} available.
+  \item \label{contracts:privatesale} The private sale contract with \href{https://polygonscan.com/address/0x22844D242cBb9B0D1DAA4af07600084d370EabB8}{address} .
+%   and \href{https://github.com/UAB-BITmarkets/token/blob/master/contracts/BITMarketsTokenPrivateSale.sol}{source code} available.
   This contract is a private sale contract, loosely based on an OpenZeppelin contract from version 2.0. It sets up a sale which has a specific exchange rate between MATIC and BTMT, is open in a specific time window, saves individual participants' total contributions and imposes a tariff and a cap on them, generates vesting wallets where the purchased tokens are transferred and provides public functions to access these wallets.
 
 \end{enumerate}
 The BITMarkets wallet infrastructure is as follows:
 \begin{enumerate}
-  \item \label{wallet:liquidity} \href{https://mumbai.polygonscan.com/address/0x29faB37886099219ba80c578E0A21dD11f86851F}{Company liquidity wallet}: This wallet holds 100 million BTMT, it is classified as a \textit{strategic} wallet and is therefore \href{https://github.com/UAB-BITmarkets/token/blob/master/contracts/token/ERC20StrategicWalletRestrictions.sol}{restricted}, in the sense that if the accumulated transactions reach 10 million then it will be locked for 1 month. BITMarkets uses this wallet to deploy the relevant smart contracts. This wallet's private key is split into many parts using \href{https://en.wikipedia.org/wiki/Shamir\%27s_secret_sharing}{Shamir secret sharing} so that it cannot be compromised by targeting a single holder.
+  \item \label{wallet:liquidity} \href{https://polygonscan.com/address/0x1db09232E83AfE4e130012cDf0e9d5E1565052c3}{Company liquidity wallet}: This wallet holds 100 million BTMT, it is classified as a \textit{strategic} wallet and is therefore
+%   \href{https://github.com/UAB-BITmarkets/token/blob/master/contracts/token/ERC20StrategicWalletRestrictions.sol}{
+  restricted,
+%   },
+  in the sense that if the accumulated transactions reach 10 million then it will be locked for 1 month. BITMarkets uses this wallet to deploy the relevant smart contracts. This wallet's private key is split into many parts using \href{https://en.wikipedia.org/wiki/Shamir\%27s_secret_sharing}{Shamir secret sharing} so that it cannot be compromised by targeting a single holder.
 
-  \item \label{wallet:allocations} \href{https://mumbai.polygonscan.com/address/0x79ec4fd856AC42eF9f15d8B4A7Ec0cF3A136D062}{Allocations wallet}: This wallet also starts with 100 million tokens, it is also classified as strategic and its restriction is that it is only allowed to transfer tokens to the vesting wallets that are generated by the allocations-related smart contract. After deployment, the allocations will happen according to Figure \ref{fig:allocations} and this wallet will not have any tokens anymore.
+  \item \label{wallet:allocations} \href{https://polygonscan.com/address/0xA2cea64b085c991e1ceb9315D02dE45bbCac720b}{Allocations wallet}: This wallet also starts with 100 million tokens, it is also classified as strategic and its restriction is that it is only allowed to transfer tokens to the vesting wallets that are generated by the allocations-related smart contract. After all the allocations happen according to Figure \ref{fig:allocations}, this wallet will not have any tokens anymore.
 
-  \item \label{wallet:crowdsales} \href{https://mumbai.polygonscan.com/address/0x9852e238Bcf28F4c918a3921f7aeb4df23cABCEa}{Public/Private sales wallet}: This wallet also holds 100 million tokens on deployment, it is strategic, and its restriction is that it is only allowed to transfer to vesting wallets generated by the private sale and the eventual public sale smart contracts.
+  \item \label{wallet:crowdsales} \href{https://polygonscan.com/address/0xdAE2CB88b1E8b037aB55fb7c1F210365aFE710a9}{Public/Private sales wallet}: This wallet also holds 100 million tokens on deployment, it is strategic, and its restriction is that it is only allowed to transfer to vesting wallets generated by the private sale and the eventual public sale smart contracts.
 
-  \item \label{wallet:rewards} \href{https://mumbai.polygonscan.com/address/0x90508C30Ea3Be576347F595a6d0A144ED8b9bC3c}{Company rewards wallet}: This wallet receives 0.33\% of each transfer amount as a company reward. The fee structure is handled by \href{https://github.com/UAB-BITmarkets/token/blob/master/contracts/token/ERC20Fees.sol}{this smart contract}.
+  \item \label{wallet:rewards} \href{https://polygonscan.com/address/0x51613cC607Ce45F8F16df8600B35E4c77706605D}{Company rewards wallet}: This wallet receives 0.1\% of each transfer amount as a company reward.
+%   The fee structure is handled by \href{https://github.com/UAB-BITmarkets/token/blob/master/contracts/token/ERC20Fees.sol}{this smart contract}.
 
-  \item \label{wallet:esg} \href{https://mumbai.polygonscan.com/address/0x0c1DD3fbB5e173c65E4801b8D3780830F80fC5cD}{ESG wallet}: This wallet also receives 0.33\% of each transfer amount. The plan is to use this wallet for social impact investments by the company, based on the preferences of the BTMT holders. The smart contract for this functionality has not been created as of yet.
+  \item \label{wallet:esg} \href{https://polygonscan.com/address/0x12427f293580556B202B518fa0865faF5Bac4337}{ESG wallet}: This wallet also receives 0.1\% of each transfer amount. The plan is to use this wallet for social impact investments by the company, based on the preferences of the BTMT holders. The smart contract for this functionality has not been created as of yet.
 
-  \item \label{wallet:pauser} \href{https://mumbai.polygonscan.com/address/0xb8b4446eeBc0ACfCdd8eee883E7E432f43f21BD5}{Pauser wallet}: This wallet has the ability to pause all transfers. This functionality is useful if there is a bug somewhere.
+  \item \label{wallet:pauser} \href{https://polygonscan.com/address/0xBdAE24Ef5E0761f07CF447DFA4cFD09f731Bd07D}{Pauser wallet}: This wallet has the ability to pause all transfers. This functionality is useful if there is a bug somewhere.
 
-  \item \label{wallet:whitelister} \href{https://mumbai.polygonscan.com/address/0x0Eb3519Ef4cee095683Dd54e0a2FE4662Aa893ac}{Whitelister wallet}: This wallet can whitelist client addresses to the private sale so that they can participate.
+  \item \label{wallet:whitelister} \href{https://polygonscan.com/address/0xdE0c3165396636b423e46aA4CA3511799829BB16}{Whitelister wallet}: This wallet can whitelist client addresses to the private sale so that they can participate.
 
-  \item \label{wallet:feeless} \href{https://mumbai.polygonscan.com/address/0x2d2F031fFEDCdD078fD8AB918Cdb4E41CE396e81}{Feeless admin}: This wallet can make smart contracts feeless admins. This functionality exists because sales and allocations smart contracts need to be able to make their generated vesting wallets feeless because these wallets do not make signed transfers so as to be able to pay for fees. These feeless admin rights to smart contracts are given on deployment. This key also gives feeless status to the ESG wallet and the company rewards wallet.
+  \item \label{wallet:feeless} \href{https://polygonscan.com/address/0xAC32fC7000dBb0B16dd59D5537333302eCCF2555}{Feeless admin}: This wallet can make smart contracts feeless admins. This functionality exists because sales and allocations smart contracts need to be able to make their generated vesting wallets feeless because these wallets do not make signed transfers so as to be able to pay for fees. These feeless admin rights to smart contracts are given on deployment. This key also gives feeless status to the ESG wallet and the company rewards wallet.
 
-  \item \label{wallet:restrictions} \href{https://mumbai.polygonscan.com/address/0x5E3dCF54c2272b1E3968294CF7aac11E88831a99}{Company restrictions admin}: This wallet can authorize the company liquidity wallet to make one unrestricted transfer to a specific address with specific amount, even if the liquidity wallet is locked. It also gives unrestricted access to the allocations and public/private sales wallets in their respective token wallets.
+  \item \label{wallet:restrictions} \href{https://polygonscan.com/address/0xD1c13CEB1AA523299fb8ECb089bcbAe4Fc558def}{Company restrictions admin}: This wallet can authorize the company liquidity wallet to make one unrestricted transfer to a specific address with specific amount, even if the liquidity wallet is locked. It also gives unrestricted access to the allocations and public/private sales wallets in their respective token wallets.
 
-  \item \label{wallet:allocationsadmin} \href{https://mumbai.polygonscan.com/address/0x0dD64bb758AaBFa93f4D9EEd8734802A83032920}{Allocations admin}: This wallet can ask the allocations smart contract to create vesting wallets. At some point it will be useless as it will have allocated all the tokens of the allocations wallet to their beneficiaries.
+  \item \label{wallet:allocationsadmin} \href{https://polygonscan.com/address/0x5E47bBe7A17bF491778573971233Bb3Bcee7926d}{Allocations admin}: This wallet can ask the allocations smart contract to create vesting wallets. At some point it will be useless as it will have allocated all the tokens of the allocations wallet to their beneficiaries.
 
-  \item \label{wallet:purchaser} \href{https://mumbai.polygonscan.com/address/0xB98AE0FD75462887301f23f67E07BDA3cae05AC4}{Sales client purchaser}: This wallet is used by the server infrastructure of BITMarkets in order to participate in the public and private sales on behalf of clients.
+  \item \label{wallet:purchaser} \href{https://polygonscan.com/address/0xFfaA52C84A9466Ff2276F8ccaEeF6Ec7205C3AD9}{Sales client purchaser}: This wallet is used by the server infrastructure of BITMarkets in order to participate in the public and private sales on behalf of clients.
 \end{enumerate}
 
 
@@ -176,13 +186,18 @@ The ERC20 extensions that BITMarkets has authored for BTMT adhere to our busines
 
 \subsubsection{Deflation}
 
-BTMT follows a deflationary supply model which reduces overtime the amount of tokens in circulation and therefore increases their scarcity. Deflation is achieved by two avenues. The first one is a 0,33\% burn on every transfer and the second one is the monthly burning of 0.1\% of the total supply from wallet \#\ref{wallet:liquidity} (company liquidity wallet). The first burning occurs by removing this percentage from the amount to be transferred and then proceeding to burning this amount from the sender's wallet.
+BTMT follows a deflationary supply model which reduces overtime the amount of tokens in circulation and therefore increases their scarcity. Deflation is achieved by two avenues. The first one is a 0,1\% burn on every transfer and the second one is the monthly burning of 0.1\% of the total supply from wallet \#\ref{wallet:liquidity} (company liquidity wallet). The first burning occurs by removing this percentage from the amount to be transferred and then proceeding to burning this amount from the sender's wallet.
 The second burning is manual and it can be used as a test of the trustworthiness of the company and the Shamir share holders.
 
 \subsubsection{Fees}
 
-On deployment, \href{https://github.com/UAB-BITmarkets/token/blob/master/contracts/token/ERC20Fees.sol}{this extension} is uploaded, which calculates the transfer fees that will be distributed to two company-controlled wallets, namely, wallet \#\ref{wallet:rewards} (company rewards) and \#\ref{wallet:esg} (esg wallet), based on prespecified percentages on the total amount of a transfer that are made available on deployment. These fees are removed from the transfer amount and transferred from the sender's wallet to the two mentioned wallets.
-The fees will be 0.33\% for each wallet and they will apply to all transfers. Another percentage of 0.33\% is removed from the transfer
+On deployment,
+% \href{https://github.com/UAB-BITmarkets/token/blob/master/contracts/token/ERC20Fees.sol}{this
+an ERC20
+extension
+% }
+is uploaded, which calculates the transfer fees that will be distributed to two company-controlled wallets, namely, wallet \#\ref{wallet:rewards} (company rewards) and \#\ref{wallet:esg} (esg wallet), based on prespecified percentages of the total amount of a transfer that are made available on deployment. These fees are removed from the initiator of the transfer and transferred to the two mentioned wallets.
+The fees will be 0.1\% for each wallet and they will apply to all transfers. Another percentage of 0.1\% is removed from the transfer
 amount and burned.
 
 The four wallets that are excluded from fee collection on deployment are wallets \#\ref{wallet:rewards} (company rewards), \#\ref{wallet:esg} (ESG), \#\ref{wallet:crowdsales} (public/private sales) and \#\ref{wallet:allocations} (allocations).
@@ -202,7 +217,8 @@ event FeelessRemoved(address indexed);
 
 \subsubsection{Restrictions}
 
-The three wallets which hold a large amount of tokens in different times of the token's lifecycle (\#\ref{wallet:liquidity}, \#\ref{wallet:crowdsales}, \#\ref{wallet:allocations}) need restrictions on their transfers so that the users can trust them and so that there exists some decentralized security on their tokens. You can browse the \href{https://github.com/UAB-BITmarkets/token/blob/master/contracts/token/ERC20StrategicWalletRestrictions.sol}{source code} of the smart contract governing these restrictions.
+The three wallets which hold a large amount of tokens in different times of the token's lifecycle (\#\ref{wallet:liquidity}, \#\ref{wallet:crowdsales}, \#\ref{wallet:allocations}) need restrictions on their transfers so that the users can trust them and so that there exists some decentralized security on their tokens.
+% You can browse the \href{https://github.com/UAB-BITmarkets/token/blob/master/contracts/token/ERC20StrategicWalletRestrictions.sol}{source code} of the smart contract governing these restrictions.
 The relevant wallet here is \#\ref{wallet:restrictions} (restrictions admin), which serves as the wallet that offers allowance to the allocations and sales smart contracts to transfer tokens from their respective wallets.
 \begin{lstlisting}[language=C++, caption=Solidity strategic wallets restriction functions.]
 function addUnrestrictedReceiver(address, address, uint256) public onlyRestrictionsAdmin;
@@ -225,7 +241,12 @@ The smart contracts expect to trade MATIC, Polygon's native cryptocurrency, with
 The sales wallet will receive the MATIC that the buyer sends to the sales
 smart contracts and the contract will send in return the amount of BTMT that
 corresponds to the rate that is derived from the contract's code to a \href{https://github.com/OpenZeppelin/openzeppelin-contracts/blob/master/contracts/finance/VestingWallet.sol}{vesting wallet} whose beneficiary is the purchaser. The purchased BTMT comes from the sales wallet,
-provided that it does not exceed the contract's allowance. The most important publicly exposed methods of public and private \href{https://github.com/UAB-BITmarkets/token/blob/master/contracts/sale/Sale.sol}{sale contracts} are the following:
+provided that it does not exceed the contract's allowance.
+The most important publicly exposed methods of public and private
+% \href{https://github.com/UAB-BITmarkets/token/blob/master/contracts/sale/Sale.sol}{
+sale contracts
+% }
+are the following:
 
 \begin{lstlisting}[language=C++, caption=Solidity sale function signatures]
 function buyTokens(address) public payable;
@@ -238,8 +259,12 @@ function weiRaised() public view returns (uint256);
 \end{lstlisting}
 
 Every sale happens in a limited time window that is specified on deployment.
-The private sale is planned to run from the 1st of March 2023 until 26th of June 2023.
-In order for external programs to track the timing, the \href{https://github.com/UAB-BITmarkets/token/blob/master/contracts/sale/TimedSale.sol}{timing smart contract} provides the following, non-state-mutating functions:
+The private sale is planned to run from the 9th of March 2023 until 18th of June 2023.
+In order for external programs to track the timing, a
+% \href{https://github.com/UAB-BITmarkets/token/blob/master/contracts/sale/TimedSale.sol}{
+timing smart contract
+% }
+provides the following, non-state-mutating functions:
 \begin{lstlisting}[language=C++, caption=Solidity timed sale function signatures]
 function isOpen() public view returns (bool);
 function hasClosed() public view returns (bool);
@@ -277,7 +302,7 @@ event TokensPurchased(
 );
 \end{lstlisting}
 
-Users who are not in possession of a decentralized Ethereum, Polygon wallet will be able to
+Users who are not in possession of a decentralized Ethereum/Polygon wallet will be able to
 participate in the sales by exchanging USD, EUR, BTC, ETH, USDT, MATIC to BTMT
 on the BITMarkets platform. They will need to pass a KYC check in order to exchange
 ``fiat'' for BTMT and then the BITMarkets backend
@@ -285,7 +310,7 @@ will trigger a server-side transfer of the corresponding BTMT amount to a vestin
 
 \subsection{Private sale}
 
-There will be a private sale with a fixed exchange rate between MATIC and BTMT which will happen before the public sale that will take place later in 2023.
+There will be a private sale with a fixed exchange rate of 1 MATIC to 20 BTMT which will happen before the public sale that will take place later in 2023.
 The company will provide a way for prospective buyers to make it into the whitelist, either by completing a number of tasks, as a gift for their dedication or for VIP clients on the platform.
 The publicly accessible functions that are relevant to the whitelist are the following:
 
